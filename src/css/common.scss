@@ -1,0 +1,51 @@
+#__bs_notify__ {
+    transform: scale(.7, .7);
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    40% {
+        -webkit-transform: rotate(90deg)
+    }
+    80% {
+        -webkit-transform: rotate(0deg)
+    }
+}
+
+@-moz-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    40% {
+        -webkit-transform: rotate(90deg)
+    }
+    80% {
+        -webkit-transform: rotate(0deg)
+    }
+}
+
+@-o-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    40% {
+        -webkit-transform: rotate(90deg)
+    }
+    80% {
+        -webkit-transform: rotate(0deg)
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    40% {
+        -webkit-transform: rotate(90deg)
+    }
+    80% {
+        -webkit-transform: rotate(0deg)
+    }
+}

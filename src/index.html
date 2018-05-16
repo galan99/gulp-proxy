@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="dream" />
+    <title>梦幻花园--入口</title>
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/common.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+        function setResize() {
+            var devieWidth = Math.min(750, document.documentElement.clientWidth);
+            document.documentElement.style.fontSize = devieWidth / 7.5 + 'px';
+        }
+        setResize()
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function(e) {
+            setTimeout(function() {
+                setResize();
+            }, 200)
+        }, false);
+    </script>
+</head>
+
+<body>
+    <div id="index">
+        <div class="bj"><img src="http://dl.gamdream.com/activity/dream/mhhy/1.png" alt=""></div>
+        <div class="scroll"></div>
+        <div class="title"> <img src="http://dl.gamdream.com/activity/dream/mhhy/text.png" alt=""> <span>抢票时间：12月26日-12月31日</span>
+            <p>玩消除建花园 消除2.0时代</p>
+        </div>
+        <div class="init">
+            <a href="javascript:vido(0);" class="btn1"><img src="http://dl.gamdream.com/activity/dream/mhhy/btn1.png" alt=""></a>
+            <a href="./ticket.html" class="btn2"><img src="http://dl.gamdream.com/activity/dream/mhhy/btn2.png" alt=""></a>
+            <a href="javascript:vido(0);" class="btn3"><img src="http://dl.gamdream.com/activity/dream/mhhy/btn3.png" alt=""></a>
+            <div class="yun"><img src="http://dl.gamdream.com/activity/dream/mhhy/yun.png" alt=""></div>
+            <h3>已有<span>10000</span>人参与</h3>
+        </div>
+    </div>
+</body>
+
+</html>
