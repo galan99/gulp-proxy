@@ -1,44 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="dream" />
-    <title>梦幻花园--入口</title>
-    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="./css/reset.css">
-    <link rel="stylesheet" type="text/css" href="./css/index.css">
-    <link rel="stylesheet" type="text/css" href="./css/common.css">
-    <script src="./js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript">
-        function setResize() {
-            var devieWidth = Math.min(750, document.documentElement.clientWidth);
-            document.documentElement.style.fontSize = devieWidth / 7.5 + 'px';
-        }
-        setResize()
-        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function(e) {
-            setTimeout(function() {
-                setResize();
-            }, 200)
-        }, false);
-    </script>
+<meta charset="utf-8">
+<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>论坛首页</title>
+<link rel="shortcut icon" href="">
+<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
-
 <body>
-    <div id="index">
-        <div class="bj"><img src="http://dl.gamdream.com/activity/dream/mhhy/1.png" alt=""></div>
-        <div class="scroll"></div>
-        <div class="title"> <img src="http://dl.gamdream.com/activity/dream/mhhy/text.png" alt=""> <span>抢票时间：12月26日-12月31日</span>
-            <p>玩消除建花园 消除2.0时代</p>
-        </div>
-        <div class="init">
-            <a href="javascript:vido(0);" class="btn1"><img src="http://dl.gamdream.com/activity/dream/mhhy/btn1.png" alt=""></a>
-            <a href="./ticket.html" class="btn2"><img src="http://dl.gamdream.com/activity/dream/mhhy/btn2.png" alt=""></a>
-            <a href="javascript:vido(0);" class="btn3"><img src="http://dl.gamdream.com/activity/dream/mhhy/btn3.png" alt=""></a>
-            <div class="yun"><img src="http://dl.gamdream.com/activity/dream/mhhy/yun.png" alt=""></div>
-            <h3>已有<span>10000</span>人参与</h3>
-        </div>
-    </div>
-</body>
 
+<div id="m_page">
+  <div class="header">
+    <div class="mc">
+      <div class="ins_box">
+        <div class="ins_top">
+          <input type="text"  class="ins ins_name" placeholder="User name" />
+          <input type="password"  class="ins ins_pass" placeholder="Password"/>
+          <button type="submit" class="ins_sub">登录</button>
+        </div>
+        <div class="ins_text">
+          <label class="ins_check">        
+            <input type="checkbox">
+            <b></b>记住密码
+          </label>
+        </div>       
+      </div>
+      <div class="ins_box">
+        <div class="ins_top ins_bt">
+          <input type="text"  class="ins ins_word" />
+          <button type="submit" class="ins_search"><i></i></button>
+        </div>
+        <div class="ins_text">
+          <p>Adanced Search</p>
+        </div>       
+      </div>      
+    </div>
+  </div>
+  <div class="contnet">
+    <div class="title">
+      <a href="" class="home"><i></i>Forum</a>
+      >
+      <span>iDreamSky Game</span>
+    </div>
+    <ul class="nums nums1 clearfix">
+    	<script id="tpl" type="text/html">
+    		<%for(var i = 0; i < list.length; i++) {%>
+    			<li><i></i><span><%:=list[i].text%></span></li>
+    		<%}%>  		
+    	</script>
+      <!-- <li><i></i><span>Threads:2000</span></li>
+      <li><i></i><span>Posts: 350000</span></li>
+      <li><i></i><span>Members: 438900</span></li>
+      <li><i></i><span>Active Members: 25440</span></li> -->
+    </ul>
+    <ul class="nums nums2 clearfix">
+    	<script id="tpl" type="text/html">
+    		<%for(var i = 0; i < list.length; i++) {%>
+    			<li><i></i><span><%:=list[i].text%></span></li>
+    		<%}%>  		
+    	</script>
+      <!-- <li><i></i><span>Threads:2000</span></li>
+      <li><i></i><span>Posts: 350000</span></li>
+      <li><i></i><span>Members: 438900</span></li>
+      <li><i></i><span>Active Members: 25440</span></li> -->
+    </ul>
+    <ul class="list clearfix">
+      <li class="bg1">
+        <i class="opacity"></i>
+        <div class="main">
+            <a class="pic" href=""><img src="./images/qiu.png"/></a>
+            <div class="rt">
+              <div class="have_con">              
+                <h3 class="tit"><a href="">FOOTBALL REVOLUTION 2018</a></h3>
+                <p class="text"><span>You have a great chance to be selected as a lucky tester!</span><s></s></p>
+              </div>
+              <div class="no_con">COMING SOON...</div> 
+            </div>
+        </div>
+      </li>
+      <li class="bg2 no">
+        <i class="opacity"></i>
+        <div class="main">
+            <a class="pic" href=""><img src="./images/h.png"/></a>
+            <div class="rt">
+              <div class="have_con">              
+                <h3 class="tit"><a href="">FOOTBALL REVOLUTION 2018</a></h3>
+                <p class="text"><span>You have a great chance to be selected as a lucky tester!</span><s></s></p>
+              </div>
+              <div class="no_con">COMING SOON...</div> 
+            </div>
+        </div>
+      </li>
+      <li class="bg3 no">
+        <i class="opacity"></i>
+        <div class="main">
+            <a class="pic" href=""><img src="./images/h.png"/></a>
+            <div class="rt">
+              <div class="have_con">              
+                <h3 class="tit"><a href="">FOOTBALL REVOLUTION 2018</a></h3>
+                <p class="text"><span>You have a great chance to be selected as a lucky tester!</span><s></s></p>
+              </div>
+              <div class="no_con">COMING SOON...</div> 
+            </div>
+        </div>
+      </li>
+      <li class="bg4 no">
+        <i class="opacity"></i>
+        <div class="main">
+            <a class="pic" href=""><img src="./images/h.png"/></a>
+            <div class="rt">
+              <div class="have_con">              
+                <h3 class="tit"><a href="">FOOTBALL REVOLUTION 2018</a></h3>
+                <p class="text"><span>You have a great chance to be selected as a lucky tester!</span><s></s></p>
+              </div>
+              <div class="no_con">COMING SOON...</div> 
+            </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/template.js"></script>
+<script type="text/javascript" src="js/app/index.js"></script>
+</body>
 </html>

@@ -1,91 +1,52 @@
 # gulp-proxy
-gulp构建项目<br/>
+gulp构建项目配置<br/>
 使用browser-sync实现页面自动刷新<br/>
 使用http-proxy-middleware实现反向代理功能<br/>
+实现css背景图片小于8k转base64<br/>
+实现es6转es5<br/>
+实现include引入公共头部底部html<br/>
+实现less编译以及自动添加浏览器前缀兼容<br/>
 
 ```code
 var gulp = require('gulp'), //  手动引入模块（可以详细的看到引入了那些模块）
-    sass = require('gulp-sass'), //  scss文件编译成css 
-    minifyCss = require('gulp-minify-css'), //  gulp-minify-css压缩css文件
-    plumber = require('gulp-plumber'), //  错误代码输出报错，不阻断进程
+    less = require('gulp-less'), //  less文件编译成css 
+    cleanCSS = require('gulp-clean-css'),//- 压缩CSS为一行；
+    concat   = require('gulp-concat'),//- 多个文件合并为一个；
     babel = require('gulp-babel'), //  编译ES6/7等
     uglify = require('gulp-uglify'), //  压缩js
-    clearnHtml = require("gulp-cleanhtml"), //  清洁html（删除不需要的空格，换行符等...）
-    imagemin = require('gulp-imagemin'), //  压缩图片文件（包括PNG、JPEG、GIF和SVG图片）
+    imagemin = require('gulp-imagemin'),//图片处理
     browserSync = require('browser-sync').create(), //  实时加载(开启服务) 保证多个浏览器或设备网页同步显示 (recipes)
     connect = require('gulp-connect'), //  开启服务（另一种方法）
-    sourcemaps = require('gulp-sourcemaps'), //  生成sourcemap文件
     autoprefixer = require('gulp-autoprefixer'), //  css 加前缀
-    $ = require('gulp-load-plugins')(), //  引入gulp加载的所有插件
-    pngquant = require('imagemin-pngquant'), //  使用pngquant深度压缩png图片的imagemin插件
-    cache = require('gulp-cache'), //  只压缩修改的图片
-    fileinclude = require('gulp-file-include'), //  
+    fileinclude = require('gulp-file-include'), //引入包含html
+    clearnHtml = require("gulp-cleanhtml"), //  清洁html（删除不需要的空格，换行符等...）
+    proxy = require('http-proxy-middleware'), //http代理
+    base64 = require('gulp-base64'), //转base64
     reload = browserSync.reload;
 
-var proxy = require('http-proxy-middleware');
-/*
-var express = require('express');
-var app = express();
-app.use('/user', proxy({
-    target: 'http://192.168.4.124:7200/',
-    changeOrigin: true,
-    pathRewrite: {
-        '^/user': '/user'
-    }
-}));
-app.listen(8080, function() {
-    console.log('http://localhost:5555')
-});*/
-
-// var gulp = require('gulp'),      
-//     //按需加载package.json中的所有依赖包
-//     $ = require('gulp-load-plugins')({
-//         pattern: '*',
-//     });
 
 // 定义源代码的目录和编译压缩后的目录
 var src = 'src',
-    dist = 'build';
+    dist = 'dist';
 
-// 编译全部scss 并压缩
-gulp.task('css', function() {
-    gulp.src(src + '/**/*.scss')
-        .pipe(plumber())
-        .pipe(autoprefixer({ // 需要兼容的版本是当前浏览器最新版的前20个版本
-            browsers: ['last 20 versions', 'Firefox >= 10'],
-            cascade: true
-        }))
-        .pipe(sass())
-        // .pipe(minifyCss())
-        .pipe(gulp.dest(dist))
+//实时编译less  
+gulp.task('css', function () {  
+    gulp.src([src + '/css/*.less']) //多个文件以数组形式传入  
+        .pipe(less())
+        .pipe(autoprefixer('last 10 versions', 'ie 9'))
+        .pipe(base64({
+            maxImageSize: 8*1024,  //小于8k的图转为base64
+        }))  
+        .pipe(concat('main.css'))   
+        .pipe(cleanCSS())  
+        .pipe(gulp.dest(dist + '/css'))
         .pipe(connect.reload());
-})
-
-// 编译全部js 并压缩
-gulp.task('js', function() {
-    gulp.src(src + '/**/*.js')
-        .pipe(plumber())
-        // .pipe(babel({
-        //     presets: ['es2015']
-        // }))
-        // .pipe(uglify())
-        .pipe(gulp.dest(dist))
-        .pipe(connect.reload());
-});
-
-// 压缩全部html
-gulp.task('html', function() {
-    gulp.src(src + '/**/*.html')
-        .pipe(plumber())
-        // .pipe(clearnHtml())
-        .pipe(gulp.dest(dist))
-        .pipe(connect.reload());
+          
 });
 
 // 压缩全部image
 gulp.task('image', function() {
     gulp.src([src + '/**/*.{jpg,png,gif,ico}'])
-        .pipe(plumber())
         .pipe(imagemin({
             optimizationLevel: 5, //类型：Number  默认：3  取值范围：0-7（优化等级）
             progressive: true, //类型：Boolean 默认：false 无损压缩jpg图片
@@ -96,24 +57,49 @@ gulp.task('image', function() {
         .pipe(connect.reload());
 });
 
+
+// 复制js文件夹到指定目录
+gulp.task('copy',  function() {
+    return gulp.src(src + '/js/lib/*.js', {base: 'src'}) //保存目录结构
+      .pipe(gulp.dest('dist'))
+});
+
+// 编译js 转es5 并压缩
+gulp.task('js', function() {
+    gulp.src(src + '/js/app/*.js', {base: 'src'})
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        // .pipe(uglify())
+        .pipe(gulp.dest(dist))
+        .pipe(connect.reload());
+});
+
+// 压缩全部html
+gulp.task('html', function() {
+    gulp.src(src + '/**/*.html')
+        // .pipe(clearnHtml())
+        .pipe(gulp.dest(dist))
+        .pipe(connect.reload());
+});
+
 gulp.task('fileinclude', function() {
-    // 适配page中所有文件夹下的所有html，排除page下的include文件夹中html
-    gulp.src(['./src/**.html'])
-        .pipe(plumber())
+    // 适配src中所有文件夹下的所有html，排除src下的include文件夹中html
+    gulp.src(['src/**.html', '!src/include/**.html'])
         .pipe(fileinclude({
             prefix: '@@',
-            basepath: 'src/components', //引用文件路径
+            basepath: '@file', //引用文件路径
             indent: true //保留文件的缩进
         }))
-        .pipe(gulp.dest('build'))
+        .pipe(gulp.dest(dist))
         .pipe(connect.reload());
 });
 
 // 自动刷新
 gulp.task('watch', function() {
     connect.server({
-        root: ['./build'],
-        port: 8080,
+        root: [dist],
+        port: 8181,
         livereload: true,
         middleware: function(connect, opt) {
             return [
@@ -129,13 +115,8 @@ gulp.task('watch', function() {
 
     });
 
-    /*browserSync.init({
-        port: 8080,
-        server: "./build"
-    });*/
-
-    // 监听scss文件编译
-    gulp.watch(src + '/**/*.scss', ['css'], reload);
+    // 监听less文件编译
+    gulp.watch("src/**/*.less", ['css']);
 
     // 监听js文件变化后刷新页面
     gulp.watch(src + "/**/*.js", ['js']).on("change", reload);
@@ -143,13 +124,14 @@ gulp.task('watch', function() {
     // 监听html文件变化后刷新页面
     gulp.watch("./src/*.html", ['html']).on("change", reload);
 
-    // 监听css文件变化后刷新页面
-    gulp.watch(dist + "/**/*.css").on("change", reload);
+    //监听引入公共的html
+    //gulp.watch('src/**/*.html', ['fileinclude']);
+
 });
 
 
 
 // 监听事件
-gulp.task('default', ['fileinclude', 'css', 'js', 'html', 'image', 'watch']);
+gulp.task('default', ['copy', 'image', 'css', 'html', 'js', 'watch']);
 
 ```
