@@ -196,7 +196,7 @@ window.onload=function(){
     PageSdK.init();
     $.ajax({
         type: "get",
-        url: "user",
+        url: "site/index",
         data: {},
         dataType: "json",
         success: function (data) {
